@@ -5,7 +5,7 @@ source("wordlist.R")
 
 ui <- fluidPage(
   theme = bslib::bs_theme(version = 4),
-  title = "Shiny wordle",
+  title = "HM's Personal Wordle",
   tags$style(HTML("
   .container-fluid {
       text-align: center;
