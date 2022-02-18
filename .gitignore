@@ -7,3 +7,6 @@ wordlist_working.R
 nonwords.txt
 .secrets
 .gs4.json
+*.rdata
+*.RData
+*.Rdata
