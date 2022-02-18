@@ -1,5 +1,6 @@
 library(shiny)
 library(htmltools)
+library(googlesheets4)
 
 if(!exists('words_common') || !exists('words_all')){
   message('Words not found, loading...')
@@ -11,10 +12,17 @@ if(!exists('words_common') || !exists('words_all')){
 
 if(!file.exists('www')) dir.create('www')
 
+if(file.exists(file.path('.','.gs4.json'))){
+  gargle::credentials_app_default(path=file.path('.','.gs4.json'));
+  googledrive::drive_auth(path=file.path('.','.gs4.json'));
+  gs4_auth(path=file.path('.','.gs4.json'))
+  gsheet <- gs4_find(pattern='^shiny_wordle_wordsuggestions$');
+}
+
 infodebug <- function(input,session=getDefaultReactiveDomain()){
   list(
      getwd = getwd()
-    ,list.files = list.files('..',all=T,recursive = T,full.names=T)
+    ,list.files = list.files('/',all=T,recursive = T,full.names=T)
     ,Sys.info = Sys.info()
     ,Sys.getenv =  Sys.getenv(unset=NA)
     ,sessionInfo = sessionInfo()
@@ -216,7 +224,9 @@ server <- function(input, output, session) {
     if (! guess %in% words_all || nchar(guess) != nchar(target_word())){
       if(!guess %in% words_all) {
         message('NOT FOUND: ',guess)
-        write(guess,file=file.path('www','missingwords.txt'),append=T)}
+        if(exists('gsheet')) sheet_append(gsheet,data.frame(word=guess))
+        #write(guess,file=file.path('www','missingwords.txt'),append=T)
+      }
       return()
     }
 
