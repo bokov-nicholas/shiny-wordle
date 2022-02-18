@@ -2,7 +2,9 @@ library(shiny)
 library(htmltools)
 
 if(!exists('words_common') || !exists('words_all')){
+  message('Words not found, loading...')
   if(file.exists('words.rdata')) load('words.rdata',envir=.GlobalEnv) else {
+    message('Did not find words.rdata, sourcing wordlist.R')
     source("wordlist.R")
     }
   };
@@ -187,8 +189,12 @@ server <- function(input, output) {
   observeEvent(input$Enter, {
     guess <- paste(current_guess_letters(), collapse = "")
 
-    if (! guess %in% words_all || nchar(guess) != nchar(target_word()))
+    if (! guess %in% words_all || nchar(guess) != nchar(target_word())){
+      if(!guess %in% words_all) {
+        message('NOT FOUND: ',guess)
+        write(guess,file='missingwords.txt',append=T)}
       return()
+    }
 
     # if (input$hard) {
     # # Letters in the target word that the player has previously
