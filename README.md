@@ -6,3 +6,5 @@ our family's use.
 Final version: [code](app-final.R)
 
   <img alt="Final screenshot" src="screenshot-final.png" width="350px" style="border: 1px solid #ccc">
+
+[![deploy-shiny](https://github.com/bokov/shiny-wordle/actions/workflows/deploy-shiny.yml/badge.svg)](https://github.com/bokov/shiny-wordle/actions/workflows/deploy-shiny.yml)
