@@ -1,7 +1,11 @@
 library(shiny)
 library(htmltools)
 
-source("wordlist.R")
+if(!exists('words_common') || !exists('words_all')){
+  if(file.exists('words.rdata')) load('words.rdata',envir=.GlobalEnv) else {
+    source("wordlist.R")
+    }
+  };
 
 ui <- fluidPage(
   theme = bslib::bs_theme(version = 4),
@@ -183,7 +187,7 @@ server <- function(input, output) {
   observeEvent(input$Enter, {
     guess <- paste(current_guess_letters(), collapse = "")
 
-    if (! guess %in% words_all)
+    if (! guess %in% words_all || nchar(guess) != nchar(target_word()))
       return()
 
     # if (input$hard) {
@@ -328,7 +332,7 @@ server <- function(input, output) {
       if (finished())
         return()
       cur <- current_guess_letters()
-      if (length(cur) >= 5)
+      if (length(cur) >= isolate(nchar(target_word())))
         return()
       current_guess_letters(c(cur, tolower(key)))
     })
