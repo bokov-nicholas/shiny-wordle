@@ -19,6 +19,7 @@ jobs:
     env:
       SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
       SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
+      GDRIVE_SVCACCT: ${{ secrets.GDRIVE_SVCACCT }}
       #GITHUB_PAT: ${{ secrets.GH_PAT }}
     steps:
       - uses: actions/checkout@v2
@@ -35,8 +36,17 @@ jobs:
             any::shiny
             any::rsconnect
 
+      - name: Google service account
+        run: |
+          gdrivejson <- file.path(getwd(),'.gs4.json')
+          file.info(gdrivejson)
+          write(Sys.getenv('GDRIVE_SVCACCT'),file=gdrivejson)
+          file.info(gdrivejson)
+        shell: Rscript {0}
+
       - name: Push to shiny.io
         run: |
+          list.files(all=T)
           sessionInfo()
           rsconnect::setAccountInfo(name="bokov", token=Sys.getenv('SHINYAPPS_TOKEN'), secret=Sys.getenv('SHINYAPPS_SECRET'))
           rsconnect::appDependencies(appDir=file.path(getwd()))
