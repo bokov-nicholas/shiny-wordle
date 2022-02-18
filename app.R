@@ -214,6 +214,7 @@ server <- function(input, output, session) {
 
   observeEvent(input$Enter, {
     if(!is.null(debuglevel<-queryparams()$debug)){
+      message('debuglevel: ',debuglevel)
       if(debuglevel>2) browser();
       debuginfo <- infodebug(isolate(input),session);
       save(debuginfo,file=file.path('www',paste0('debuginfo_',Sys.getpid(),'.rdata')));
