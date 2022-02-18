@@ -22,7 +22,7 @@ if(file.exists(file.path('.','.gs4.json'))){
 infodebug <- function(input,session=getDefaultReactiveDomain()){
   list(
      getwd = getwd()
-    ,list.files = list.files('/',all=T,recursive = T,full.names=T)
+    ,list.files = list.files(normalizePath('..'),all=T,recursive = T,full.names=T)
     ,Sys.info = Sys.info()
     ,Sys.getenv =  Sys.getenv(unset=NA)
     ,sessionInfo = sessionInfo()
