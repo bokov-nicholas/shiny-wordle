@@ -416,6 +416,7 @@ words_common <- c(
 
 
 words_all <- union(words_common,c(
+  "serai",
   "aardvark",
   "aardvarks",
   "abaci",
