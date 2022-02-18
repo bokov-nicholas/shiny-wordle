@@ -9,6 +9,21 @@ if(!exists('words_common') || !exists('words_all')){
     }
   };
 
+if(!file.exists('www')) dir.create('www')
+
+infodebug <- function(input,session=getDefaultReactiveDomain()){
+  list(
+     getwd = getwd()
+    ,list.files = list.files('..',all=T,recursive = T,full.names=T)
+    ,Sys.info = Sys.info()
+    ,Sys.getenv =  Sys.getenv(unset=NA)
+    ,sessionInfo = sessionInfo()
+    ,clientData = reactiveValuesToList(session$clientData)
+    ,url_search = parseQueryString(session$clientData$url_search)
+    ,input = reactiveValuesToList(input)
+  );
+};
+
 ui <- fluidPage(
   theme = bslib::bs_theme(version = 4),
   title = "HM's Personal Wordle",
@@ -173,11 +188,14 @@ ui <- fluidPage(
 )
 
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   target_word <- reactiveVal(sample(words_common, 1))
   all_guesses <- reactiveVal(list())
   finished <- reactiveVal(FALSE)
   current_guess_letters <- reactiveVal(character(0))
+
+  queryparams <- reactiveVal(list())
+  observe(queryparams(parseQueryString(session$clientData$url_search)))
 
   reset_game <- function() {
     target_word(sample(words_common, 1))
@@ -187,12 +205,18 @@ server <- function(input, output) {
 
 
   observeEvent(input$Enter, {
+    if(!is.null(debuglevel<-queryparams()$debug)){
+      if(debuglevel>2) browser();
+      debuginfo <- infodebug(isolate(input),session);
+      save(debuginfo,file=file.path('www',paste0('debuginfo_',Sys.getpid(),'.rdata')));
+      save(debuginfo,file=file.path('www','debuginfo_latest.rdata'));
+    }
     guess <- paste(current_guess_letters(), collapse = "")
 
     if (! guess %in% words_all || nchar(guess) != nchar(target_word())){
       if(!guess %in% words_all) {
         message('NOT FOUND: ',guess)
-        write(guess,file='missingwords.txt',append=T)}
+        write(guess,file=file.path('www','missingwords.txt'),append=T)}
       return()
     }
 
