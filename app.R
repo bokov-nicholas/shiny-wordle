@@ -1,3 +1,28 @@
+# How to auth to GSheets...
+# https://stackoverflow.com/questions/65051305/struggling-to-use-my-own-api-key-with-googlesheets4-in-shinyapps-io
+#
+# Briefly:
+# drive_auth(path = "client_secret.json")
+# gs4_auth(path = "client_secret.json")
+#
+# The contents of client_secret.json are in the following format:
+# {
+# "type": "service_account",
+# "project_id": "somecute-projectname-012345",
+# "private_key_id": "99999",
+# "private_key": "-----BEGIN PRIVATE KEY-----\nXXX=\n-----END PRIVATE KEY-----\n",
+# "client_email": "name-of-svcaccount@somecute-projectname-012345.iam.gserviceaccount.com",
+# "client_id": "99999",
+# "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+# "token_uri": "https://oauth2.googleapis.com/token",
+# "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+# "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/name-of-svcaccount%40somecute-projectname-012345.iam.gserviceaccount.com"
+# }
+#
+# This entire JSON file gets generated as a one-time thing by
+# https://console.cloud.google.com/projectselector2/iam-admin/serviceaccounts
+# The whole JSON blob should be treated like a password and saved accordingly
+
 library(shiny)
 library(htmltools)
 library(googlesheets4)
