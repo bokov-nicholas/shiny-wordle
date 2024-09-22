@@ -59,7 +59,7 @@ infodebug <- function(input,session=getDefaultReactiveDomain()){
 
 ui <- fluidPage(
   theme = bslib::bs_theme(version = 4),
-  title = "HM's Personal Wordle",
+  title = "Nick's Personal Wordle",
   tags$style(HTML("
   .container-fluid {
       text-align: center;

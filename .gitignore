@@ -2,11 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+BexarCOVID_6202.Rcheck/
+BexarCOVID_6202*.tar.gz
+BexarCOVID_6202*.tgz
 rsconnect
-wordlist_working.R
-nonwords.txt
-.secrets
-.gs4.json
-*.rdata
-*.RData
-*.Rdata
+words.rdata

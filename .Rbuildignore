@@ -1,3 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.secrets$
+^BexarCOVID_6202\.Rcheck$
+^BexarCOVID_6202.*\.tar\.gz$
+^BexarCOVID_6202.*\.tgz$
