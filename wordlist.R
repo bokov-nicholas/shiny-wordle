@@ -1,7 +1,16 @@
 # https://eslforums.com/5-letter-words/
 # http://www.poslarchive.com/math/scrabble/lists/common-5.html
 
+# words_common ----
 words_common <- c(
+  "i","is","it","the","and","in","at","man","be","ran","like","me","to"
+  ,"see","a","my"
+  ,"his","on","up","he","go","we","of","was","not","look","do","you","she"
+  ,"play","get","did","little","big","by","us","with","run","has","said"
+)
+
+# words_common_old ----
+words_common_old <- c(
   "wide",
   "part",
   "mink",
@@ -414,7 +423,7 @@ words_common <- c(
   "presidio",
   "conurbation")
 
-
+# words_all ----
 words_all <- union(words_common,c(
   "serai",
   "aardvark",
